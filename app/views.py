@@ -19,3 +19,25 @@ class ProductCrud(APIView):
             PMSD.save()
             return Response({'MessageO':'Product is inserted successfully'})
         return Response({'Error':'Product is not inserted'})
+    
+    def put(self,request,id):
+        PO=Product.objects.get(id=id)
+        UPDO=ProductSerializer(PO,data=request.data)
+        if UPDO.is_valid():
+            UPDO.save()
+            return Response({'update':'Data is Updated'})
+        else:
+            return Response({'error':'Update not done'})
+    
+    def patch(self,request,id):
+        PO=Product.objects.get(id=id)
+        UPDO=ProductSerializer(PO,data=request.data,partial=True)
+        if UPDO.is_valid():
+            UPDO.save()
+            return Response({'update':'Data is Updated'})
+        else:
+            return Response({'error':'Update not done'})
+
+    def delete(self,request,id):
+        Product.objects.get(id=id).delete()
+        return Response({'deletion':'Data is Deleted'})
